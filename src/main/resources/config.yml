@@ -37,6 +37,10 @@ hacks:
     stopHopperDupe: true
     stopRailDupe: true
     stopEndPortalDeletion: true
+    killSkeletonHorses:
+      enabled: false
+      # interval in minutes
+      interval: 60
   GameTuning:
     enabled: true
     chunkLimits:
@@ -63,6 +67,9 @@ hacks:
     # enabled = able to right click   disabled = not able to right click
     chestedMinecartInventories: true
     hopperMinecartInventories: true
+    # true = able to place blocks  false = not able to place blocks
+    allowPlaceEndCrystals : true
+    allowPlaceDragonEgg : true
   CTAnnounce:
     enabled: false
     delay: 10000

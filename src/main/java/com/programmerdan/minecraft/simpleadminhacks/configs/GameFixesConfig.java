@@ -17,6 +17,8 @@ public class GameFixesConfig extends SimpleHackConfig {
 	private boolean stopHopperDupe;
 	private boolean stopRailDupe;
 	private boolean stopEndPortalDeletion;
+	private boolean killSkeletonHorses;
+	private int killSkeletonHorsesMinutes;
 
 	private ArrayList<BlockFace> bfArray;
 	private ArrayList<Material> railArray;
@@ -38,6 +40,14 @@ public class GameFixesConfig extends SimpleHackConfig {
 
 		stopEndPortalDeletion = config.getBoolean("stopEndPortalDeletion", true);
 		if (stopEndPortalDeletion) plugin().log("Stop End Portal Deletion is enabled.");
+
+		killSkeletonHorses = config.getBoolean("killSkeletonHorses.enabled", false);
+		if (killSkeletonHorses) {
+			killSkeletonHorsesMinutes = config.getInt("killSkeletonHorses.interval", 60);
+			plugin().log("Killing of skeleton horses is enabled and runs every " +
+					killSkeletonHorsesMinutes + " minutes.");
+		}
+
 	}
 
 	private void wireUpArrays() {
@@ -86,6 +96,14 @@ public class GameFixesConfig extends SimpleHackConfig {
 
 	public boolean isStopEndPortalDeletion() {
 		return stopEndPortalDeletion;
+	}
+
+	public boolean isKillSkeletonHorses() {
+		return killSkeletonHorses;
+	}
+
+	public int getKillSkeletonHorsesMinutes() {
+		return killSkeletonHorsesMinutes;
 	}
 
 	public ArrayList<BlockFace> getBfArray() {

@@ -38,6 +38,9 @@ public class GameTuningConfig extends SimpleHackConfig {
 	private boolean chestedMinecartInventories;
 	private boolean hopperMinecartInventories;
 
+	private boolean allowPlaceEndCrystals;
+	private boolean allowPlaceDragonEgg;
+
 	public GameTuningConfig(SimpleAdminHacks plugin, ConfigurationSection base) {
 		super(plugin, base);
 	}
@@ -61,6 +64,12 @@ public class GameTuningConfig extends SimpleHackConfig {
 
 		this.hopperMinecartInventories = config.getBoolean("hopperMinecartInventories", true);
 		if (!hopperMinecartInventories) plugin().log("Hopper Minecart Inventories are disabled.");
+
+		this.allowPlaceEndCrystals = config.getBoolean("allowPlaceEndCrystals", true);
+		if (!allowPlaceEndCrystals) plugin().log("Placing End Crystals are disabled.");
+
+		this.allowPlaceDragonEgg = config.getBoolean("allowPlaceDragonEgg", true);
+		if (!allowPlaceDragonEgg) plugin().log("Placing Dragon Eggs are disabled.");
 
 		/* Add additional tuning config grabs here. */
 	}
@@ -197,12 +206,31 @@ public class GameTuningConfig extends SimpleHackConfig {
 		return returnNetherPortal;
 	}
 
+	/**
+	 * @return false if inventories are disabled.
+	 */
 	public boolean isChestedMinecartInventories() {
 		return chestedMinecartInventories;
 	}
 
+	/**
+	 * @return false if inventories are disabled.
+	 */
 	public boolean isHopperMinecartInventories() {
 		return hopperMinecartInventories;
 	}
 
+	/**
+	 * @return false if blocking end crystal placement.
+	 */
+	public boolean isAllowPlaceEndCrystals() {
+		return allowPlaceEndCrystals;
+	}
+
+	/**
+	 * @return false if blocking dragon egg placement
+	 */
+	public boolean isAllowPlaceDragonEgg() {
+		return allowPlaceDragonEgg;
+	}
 }

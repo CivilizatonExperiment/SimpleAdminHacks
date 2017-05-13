@@ -12,10 +12,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityPortalEvent;
+import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -39,7 +42,9 @@ import com.programmerdan.minecraft.simpleadminhacks.SimpleAdminHacks;
 import com.programmerdan.minecraft.simpleadminhacks.SimpleHack;
 import com.programmerdan.minecraft.simpleadminhacks.configs.GameTuningConfig;
 import org.bukkit.event.world.PortalCreateEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.PlayerInventory;
 
 /**
  * This is a grab-bag class to hold any _tuning_ related configurations that impact the
@@ -277,7 +282,24 @@ public class GameTuning extends SimpleHack<GameTuningConfig> implements Listener
 			if (holder instanceof HopperMinecart && !config.isHopperMinecartInventories()) {
 				event.setCancelled(true);
 			}
+		}
+	}
 
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void preventEndCrystalsPlace(PlayerInteractEvent event) {
+		if (!config.isAllowPlaceEndCrystals()) {
+			if (event.getMaterial().equals(Material.END_CRYSTAL)) {
+				event.setCancelled(true);
+			}
+		}
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
+	public void preventDragonEggPlace(BlockPlaceEvent event) {
+		if (!config.isAllowPlaceDragonEgg()) {
+			if (event.getBlock().getType().equals(Material.DRAGON_EGG)) {
+				event.setCancelled(true);
+			}
 		}
 	}
 

@@ -1,9 +1,11 @@
 package com.programmerdan.minecraft.simpleadminhacks.hacks;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,9 +27,17 @@ import org.bukkit.material.Hopper;
 import com.programmerdan.minecraft.simpleadminhacks.SimpleAdminHacks;
 import com.programmerdan.minecraft.simpleadminhacks.SimpleHack;
 import com.programmerdan.minecraft.simpleadminhacks.configs.GameFixesConfig;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
+
+import java.util.concurrent.ScheduledFuture;
 
 public class GameFixes extends SimpleHack<GameFixesConfig> implements Listener {
 	public static final String NAME = "GameFixes";
+
+	private BukkitTask skeleHorsesTask;
 
 	public GameFixes(SimpleAdminHacks plugin, GameFixesConfig config) {
 		super(plugin, config);
@@ -47,6 +57,22 @@ public class GameFixes extends SimpleHack<GameFixesConfig> implements Listener {
 
 	@Override
 	public void dataBootstrap() {
+
+		BukkitRunnable runnable = new BukkitRunnable() {
+			@Override
+			public void run() {
+				String command1 = "scoreboard players tag @e[type=EntityHorse] add horseTrap {Type:4}";
+				String command2 = "scoreboard players tag @e[type=EntityHorse] remove horseTrap {CustomNameVisible:0b}";
+				String command3 = "scoreboard players tag @e[type=EntityHorse] remove horseTrap {CustomNameVisible:1b}";
+				String command4 = "kill @e[type=EntityHorse,tag=horseTrap]";
+				Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command1);
+				Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command2);
+				Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command3);
+				Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), command4);
+			}
+		};
+
+		skeleHorsesTask = runnable.runTaskTimer(plugin(), 200L, ((config.getKillSkeletonHorsesMinutes() * 60) * 20));
 	}
 
 	@Override
@@ -62,6 +88,7 @@ public class GameFixes extends SimpleHack<GameFixesConfig> implements Listener {
 
 	@Override
 	public void dataCleanup() {
+		skeleHorsesTask.cancel();
 	}
 
 	@Override
